@@ -1,0 +1,16 @@
+{
+  "BELIEVER-BELIEVER.title": "The Believer",
+  "BELIEVER-BELIEVER.titleObject": "The Believer",
+  "BELIEVER-BELIEVER.description": "A devout ascetic who turns suffering into resolve.\nBeliever converts faith into raw power.",
+  "BELIEVER-BELIEVER.pronounObject": "them",
+  "BELIEVER-BELIEVER.possessiveAdjective": "their",
+  "BELIEVER-BELIEVER.pronounPossessive": "theirs",
+  "BELIEVER-BELIEVER.pronounSubject": "they",
+  "BELIEVER-BELIEVER.goldMonologue": "Gold is only a test of faith, not a reward.",
+  "BELIEVER-BELIEVER.eventDeathPrevention": "My faith is not finished with me yet.",
+  "BELIEVER-BELIEVER.aromaPrinciple": "Devotion",
+  "BELIEVER-BELIEVER.cardsModifierTitle": "Believer Cards",
+  "BELIEVER-BELIEVER.cardsModifierDescription": "Believer cards will now appear in rewards and shops.",
+  "BELIEVER-BELIEVER.banter.alive.endTurnPing": "My turn is done. Have faith.",
+  "BELIEVER-BELIEVER.banter.dead.endTurnPing": "..."
+}

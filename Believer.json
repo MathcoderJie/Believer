@@ -1,0 +1,14 @@
+﻿{
+  "id": "Believer",
+  "name": "Believer",
+  "author": "Mathcoderjie",
+  "description": "Slay the Spire 2 character mod created from a template for use with BaseLib",
+  "version": "v0.0.0",
+  "min_game_version": "0.107.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": [
+    {"id": "BaseLib", "min_version": "3.4.7"}
+  ],
+  "affects_gameplay": true
+}
