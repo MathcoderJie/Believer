@@ -1,5 +1,6 @@
 using BaseLib.Abstracts;
 using BaseLib.Utils.NodeFactories;
+using Believer.BelieverCode.Cards;
 using Believer.BelieverCode.Extensions;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
@@ -20,6 +21,10 @@ public class Believer : PlaceholderCharacterModel
     public override int StartingHp => 70;
     
     public override IEnumerable<CardModel> StartingDeck => [
+        // 全知全能 / Omniscience: the Believer's active ability. Unlike the rest of the starting
+        // deck it is not a deck-building card - it is non-collectible, Innate + Retain, and never
+        // leaves the hand except while the form is active (see OmniscienceCard/OmnisciencePower).
+        ModelDb.Card<OmniscienceCard>(),
         ModelDb.Card<StrikeIronclad>(),
         ModelDb.Card<StrikeIronclad>(),
         ModelDb.Card<StrikeIronclad>(),

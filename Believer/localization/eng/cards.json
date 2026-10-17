@@ -1,4 +1,8 @@
 {
   "BELIEVER-DIVINITY_TEST_CARD.title": "Divinity Test",
-  "BELIEVER-DIVINITY_TEST_CARD.description": "Gain 1 Divinity."
+  "BELIEVER-DIVINITY_TEST_CARD.description": "Gain 1 Divinity.",
+  "BELIEVER-OMNISCIENCE_CARD.title": "Omniscience",
+  "BELIEVER-OMNISCIENCE_CARD.description": "Only playable at 7 Divinity.\nConsume 7 Divinity: draw 3 cards, remove all debuffs, gain all unlocked Miracles and make cards cost 0. Take no HP loss until the enemy's turn ends.",
+  "BELIEVER-DEV_MIRACLE_TEST_CARD.title": "Test Miracle",
+  "BELIEVER-DEV_MIRACLE_TEST_CARD.description": "Deal 6 damage."
 }

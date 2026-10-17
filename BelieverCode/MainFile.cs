@@ -1,4 +1,5 @@
 using System.Reflection;
+using Believer.BelieverCode.Miracles;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
@@ -16,6 +17,10 @@ public partial class MainFile : Node
 
     public static void Initialize()
     {
+        // M2 omniscience: the 神迹收藏 (Miracle collection) system does not exist yet, so a
+        // development-only provider stands in for it until that system registers its own.
+        MiracleRegistry.Register(new DevMiracleProvider());
+
         var assembly = Assembly.GetExecutingAssembly();
 
         //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
