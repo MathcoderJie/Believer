@@ -30,5 +30,21 @@
   "BELIEVER-LORD_OF_HOSTS.title": "Lord of Hosts",
   "BELIEVER-LORD_OF_HOSTS.description": "This turn, whenever you play an ordinary card, deal 5 damage to ALL enemies.\nTriggers up to 8 times.",
   "BELIEVER-WHITE_THRONE_JUDGMENT.title": "White Throne Judgment",
-  "BELIEVER-WHITE_THRONE_JUDGMENT.description": "Deal 35 damage to ALL enemies.\nBosses take 40 more damage.\nAfter damage, non-boss enemies below 30% HP are killed."
+  "BELIEVER-WHITE_THRONE_JUDGMENT.description": "Deal 35 damage to ALL enemies.\nBosses take 40 more damage.\nAfter damage, non-boss enemies below 30% HP are killed.",
+  "BELIEVER-STRIKE_BELIEVER.title": "Strike",
+  "BELIEVER-STRIKE_BELIEVER.description": "Deal {Damage:diff()} damage.",
+  "BELIEVER-HEAVY_STRIKE.title": "Heavy Strike",
+  "BELIEVER-HEAVY_STRIKE.description": "Deal {Damage:diff()} damage.",
+  "BELIEVER-TRIPLE_SLASH.title": "Triple Slash",
+  "BELIEVER-TRIPLE_SLASH.description": "Deal {Damage:diff()} damage 3 times.",
+  "BELIEVER-SWEEP.title": "Sweep",
+  "BELIEVER-SWEEP.description": "Deal {Damage:diff()} damage to ALL enemies.",
+  "BELIEVER-DEFEND_BELIEVER.title": "Defend",
+  "BELIEVER-DEFEND_BELIEVER.description": "Gain {Block:diff()} Block.",
+  "BELIEVER-STEADFAST.title": "Steadfast",
+  "BELIEVER-STEADFAST.description": "Gain {Block:diff()} Block.\nIf you have at least 3 Divinity, gain {ExtraBlock:diff()} additional Block.",
+  "BELIEVER-FOCUS.title": "Focus",
+  "BELIEVER-FOCUS.description": "Gain {Divinity:diff()} Divinity.\nDraw 1 card.",
+  "BELIEVER-SILENT_PRAYER.title": "Silent Prayer",
+  "BELIEVER-SILENT_PRAYER.description": "Gain {Divinity:diff()} Divinity."
 }

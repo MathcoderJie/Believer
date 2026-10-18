@@ -1,0 +1,18 @@
+{
+  "BELIEVER-STRIKE_BELIEVER.title": "打击",
+  "BELIEVER-STRIKE_BELIEVER.description": "造成 {Damage:diff()} 点伤害。",
+  "BELIEVER-HEAVY_STRIKE.title": "重击",
+  "BELIEVER-HEAVY_STRIKE.description": "造成 {Damage:diff()} 点伤害。",
+  "BELIEVER-TRIPLE_SLASH.title": "连斩",
+  "BELIEVER-TRIPLE_SLASH.description": "造成 {Damage:diff()} 点伤害 3 次。",
+  "BELIEVER-SWEEP.title": "横扫",
+  "BELIEVER-SWEEP.description": "对所有敌人造成 {Damage:diff()} 点伤害。",
+  "BELIEVER-DEFEND_BELIEVER.title": "防御",
+  "BELIEVER-DEFEND_BELIEVER.description": "获得 {Block:diff()} 点格挡。",
+  "BELIEVER-STEADFAST.title": "坚守",
+  "BELIEVER-STEADFAST.description": "获得 {Block:diff()} 点格挡。\n若当前神性至少为 3 点，额外获得 {ExtraBlock:diff()} 点格挡。",
+  "BELIEVER-FOCUS.title": "凝神",
+  "BELIEVER-FOCUS.description": "获得 {Divinity:diff()} 点神性，抽 1 张牌。",
+  "BELIEVER-SILENT_PRAYER.title": "静祷",
+  "BELIEVER-SILENT_PRAYER.description": "获得 {Divinity:diff()} 点神性。"
+}
