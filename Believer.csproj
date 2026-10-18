@@ -121,4 +121,8 @@
               EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1"
               ContinueOnError="WarnAndContinue"/>
     </Target>
+    <ItemGroup>
+      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_skin.atlas" LogicalName="Believer.BelieverCode.ReskinTest.believer_skin.atlas" />
+      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_skin.png" LogicalName="Believer.BelieverCode.ReskinTest.believer_skin.png" />
+    </ItemGroup>
 </Project>

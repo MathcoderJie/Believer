@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[node name="SilentTestVisuals" type="Node2D"]
+
+[node name="Visuals" type="SpineSprite" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, 0)
+scale = Vector2(0.29, 0.29)
