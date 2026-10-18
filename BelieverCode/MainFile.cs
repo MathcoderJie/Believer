@@ -21,6 +21,10 @@ public partial class MainFile : Node
         // development-only provider stands in for it until that system registers its own.
         MiracleRegistry.Register(new DevMiracleProvider());
 
+        // M4 miracle collection: store the run's collected miracle ids in the game's own run save
+        // (BaseLib extended save data on SerializableRun). This must happen during mod init.
+        MiracleCollectionStore.RegisterSave();
+
         var assembly = Assembly.GetExecutingAssembly();
 
         //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
