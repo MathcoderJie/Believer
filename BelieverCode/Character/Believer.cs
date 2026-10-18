@@ -2,11 +2,11 @@ using BaseLib.Abstracts;
 using BaseLib.Utils.NodeFactories;
 using Believer.BelieverCode.Cards;
 using Believer.BelieverCode.Extensions;
+using Believer.BelieverCode.Relics;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Relics;
 
 namespace Believer.BelieverCode.Character;
 
@@ -39,7 +39,8 @@ public class Believer : PlaceholderCharacterModel
 
     public override IReadOnlyList<RelicModel> StartingRelics =>
     [
-        ModelDb.Relic<BurningBlood>()
+        // 残缺圣印 / Incomplete Seal: gain 1 Divinity at the start of each of the owner's turns.
+        ModelDb.Relic<IncompleteSeal>()
     ];
     
     public override CardPoolModel CardPool => ModelDb.CardPool<BelieverCardPool>();
