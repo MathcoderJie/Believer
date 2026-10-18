@@ -1,5 +1,11 @@
 {
   "BELIEVER-OMNISCIENCE_POWER.title": "Omniscience",
   "BELIEVER-OMNISCIENCE_POWER.description": "Cards cost 0 and you take no HP loss.\nEnds when the enemy's turn ends.",
-  "BELIEVER-OMNISCIENCE_POWER.smartDescription": "Cards cost 0 and you take no HP loss.\nEnds when the enemy's turn ends."
+  "BELIEVER-OMNISCIENCE_POWER.smartDescription": "Cards cost 0 and you take no HP loss.\nEnds when the enemy's turn ends.",
+  "BELIEVER-ARMY_OF_THE_LORD_POWER.title": "Lord of Hosts",
+  "BELIEVER-ARMY_OF_THE_LORD_POWER.description": "Whenever you play an ordinary card, deal 5 damage to ALL enemies.\nTriggers up to 8 times.",
+  "BELIEVER-ARMY_OF_THE_LORD_POWER.smartDescription": "Whenever you play an ordinary card, deal 5 damage to ALL enemies.\nTriggers up to 8 times.",
+  "BELIEVER-LOAVES_AND_FISHES_POWER.title": "Temporary Copies",
+  "BELIEVER-LOAVES_AND_FISHES_POWER.description": "Copies created by Five Loaves and Two Fish disappear at the end of your turn.",
+  "BELIEVER-LOAVES_AND_FISHES_POWER.smartDescription": "Copies created by Five Loaves and Two Fish disappear at the end of your turn."
 }

@@ -1,5 +1,6 @@
 using BaseLib.Hooks;
 using Believer.BelieverCode.Mechanics;
+using Believer.BelieverCode.Miracles;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -52,6 +53,7 @@ namespace Believer.BelieverCode.Powers;
 public sealed class OmnisciencePower : BelieverPower, IMaxHandSizeModifier
 {
     private int _miraclesToGrant;
+    private int _extraReservedHandSpace;
 
     public override PowerType Type => PowerType.Buff;
 
@@ -83,15 +85,47 @@ public sealed class OmnisciencePower : BelieverPower, IMaxHandSizeModifier
     /// <summary>Marks that this form has generated its miracle cards (called once per form).</summary>
     public void MarkMiraclesGranted() => MiraclesGranted = true;
 
+    /// <summary>True when Genesis already extended this form's duration (max once per form).</summary>
+    public bool ExtensionGranted { get; private set; }
+
+    private bool _extensionRequested;
+
+    /// <summary>
+    /// M6 / 再创世 asks to extend this form by one more player turn. Returns false when an extension
+    /// was already requested or granted, so the form can never be extended more than once and the card
+    /// can never trigger an infinite extension loop.
+    /// </summary>
+    public bool RequestExtension()
+    {
+        if (ExtensionGranted || _extensionRequested) return false;
+
+        _extensionRequested = true;
+        return true;
+    }
+
     /// <summary>
     /// M5: raise the form owner's max hand size by the number of miracles the form grants, using
     /// BaseLib's supported hand-size extension point (<see cref="IMaxHandSizeModifier"/>). Other
     /// players, and the owner after the form ends, keep the normal limit.
+    ///
+    /// M6's card-generation miracles (五饼二鱼 copies, 拉撒复生 recovered cards) additionally reserve
+    /// hand space through <see cref="ReserveHandSpace"/>, so the cards they create land in hand even
+    /// when the hand is already full of other cards.
     /// </summary>
     public int ModifyMaxHandSize(Player player, int currentMaxHandSize)
         => Owner != null && player == Owner.Player
-            ? currentMaxHandSize + _miraclesToGrant
+            ? currentMaxHandSize + _miraclesToGrant + _extraReservedHandSpace
             : currentMaxHandSize;
+
+    /// <summary>
+    /// M6: reserves extra max-hand-size room for cards a miracle is about to add to the hand (temporary
+    /// copies, recovered cards), so the engine's "hand is full -&gt; move to discard" fallback does not
+    /// silently steal them. Lasts for the rest of the form.
+    /// </summary>
+    public void ReserveHandSpace(int amount)
+    {
+        if (amount > 0) _extraReservedHandSpace += amount;
+    }
 
     /// <summary>
     /// "Cards cost 0 this form" is a dynamic, global cost modifier rather than a per-card
@@ -127,9 +161,12 @@ public sealed class OmnisciencePower : BelieverPower, IMaxHandSizeModifier
         => target == Owner && CombatManager.Instance.IsInProgress ? 0m : amount;
 
     /// <summary>
-    /// End of the owner's turn, before the hand is flushed: remove every Miracle card (unplayed ones
-    /// and anything that already exhausted itself). This keeps temporary miracles from being flushed
-    /// into the discard pile and out of the player's usable window.
+    /// End of the owner's turn, before the hand is flushed.
+    ///
+    /// Normally this removes every Miracle card (unplayed ones and anything that already exhausted
+    /// itself). When 再创世/ Genesis requested an extension, the form continues into one more player
+    /// turn instead: unplayed miracles are given single-turn retain so they stay in hand and remain
+    /// usable during the extended turn (no re-generation, no re-draw, no second debuff cleanse).
     /// </summary>
     public override Task BeforeSideTurnEnd(
         PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
@@ -137,21 +174,55 @@ public sealed class OmnisciencePower : BelieverPower, IMaxHandSizeModifier
         if (side == CombatSide.Player && participants.Contains(Owner))
         {
             var player = Owner.Player;
-            if (player != null) return Omniscience.CleanUpMiracles(player);
+            if (player == null) return Task.CompletedTask;
+
+            if (_extensionRequested && !ExtensionGranted) return RetainMiraclesForExtendedTurn(player);
+
+            return Omniscience.CleanUpMiracles(player);
         }
 
         return Task.CompletedTask;
     }
 
+    /// <summary>Keeps the form's unplayed miracles in hand across the turn boundary for the extended turn.</summary>
+    private Task RetainMiraclesForExtendedTurn(Player player)
+    {
+        var playerCombatState = player.PlayerCombatState;
+        if (playerCombatState == null) return Task.CompletedTask;
+
+        var retained = 0;
+        foreach (var card in playerCombatState.AllCards)
+        {
+            if (card == null || !MiracleRegistry.IsMiracle(card)) continue;
+            if (card.Pile?.Type != PileType.Hand) continue;
+
+            card.GiveSingleTurnRetain();
+            retained++;
+        }
+
+        MainFile.Logger.Info(
+            $"[Miracles] Genesis extends Omniscience by one player turn; retained {retained} unplayed miracle(s).");
+        return Task.CompletedTask;
+    }
+
     /// <summary>
-    /// End of the enemy's turn: leave the form. Removal is what restores normal card costs, HP loss
-    /// and max hand size (all provided by this power), and the ability card is returned to the hand so
-    /// the player can start the next Omniscience once Divinity is full again.
+    /// End of the enemy's turn: leave the form - unless 再创世/ Genesis requested one more player turn,
+    /// in which case the form simply continues (the power stays, so damage immunity, 0-cost cards,
+    /// miracle hand space and miracle usability all keep working). The extension is consumed exactly
+    /// once; the following enemy turn end finally removes the form.
     /// </summary>
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         if (side != CombatSide.Enemy || !CombatManager.Instance.IsInProgress) return;
+
+        if (_extensionRequested && !ExtensionGranted)
+        {
+            ExtensionGranted = true;
+            _extensionRequested = false;
+            MainFile.Logger.Info("[Miracles] Omniscience form continues for one additional player turn (Genesis).");
+            return;
+        }
 
         var player = Owner.Player;
         await PowerCmd.Remove(this);
