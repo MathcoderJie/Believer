@@ -17,9 +17,10 @@ public partial class MainFile : Node
 
     public static void Initialize()
     {
-        // M2 omniscience: the 神迹收藏 (Miracle collection) system does not exist yet, so a
-        // development-only provider stands in for it until that system registers its own.
-        MiracleRegistry.Register(new DevMiracleProvider());
+        // M5: Omniscience grants exactly the miracles collected in the current run (M4 collection),
+        // bridged through M2's IMiracleProvider seam. This replaces the M2 development placeholder
+        // provider, which granted its test miracle regardless of the collection.
+        MiracleRegistry.Register(new MiracleCollectionProvider());
 
         // M4 miracle collection: store the run's collected miracle ids in the game's own run save
         // (BaseLib extended save data on SerializableRun). This must happen during mod init.

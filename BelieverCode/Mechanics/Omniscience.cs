@@ -19,6 +19,11 @@ namespace Believer.BelieverCode.Mechanics;
 /// Everything here runs inside a native card play (<see cref="OmniscienceCard.OnPlay"/>), so every
 /// peer executes the same sequence deterministically - including the Divinity spend, which is local
 /// per-combat state in M1 and would desync if it were mutated outside of a synchronised action.
+///
+/// M5: the form now grants the miracles collected in this run (M4 <c>MiracleCollectionStore</c>,
+/// reached through the M2 <see cref="MiracleRegistry"/> provider seam) instead of the M2 development
+/// placeholder. Generated miracles are temporary combat instances, are never written to the deck, and
+/// are removed again when the form ends.
 /// </summary>
 public static class Omniscience
 {
@@ -37,8 +42,9 @@ public static class Omniscience
     /// - before drawing, so nothing drawn can be hurt by the old costs.</item>
     /// <item>Remove all removable debuffs. This deliberately happens before the draw so a
     /// draw-blocking debuff cannot swallow the 3 cards.</item>
-    /// <item>Draw 3 cards.</item>
-    /// <item>Grant every unlocked Miracle from the run's collection into the hand.</item>
+    /// <item>Reserve hand space for the collected miracles (see
+    /// <see cref="OmnisciencePower.ModifyMaxHandSize"/>), then draw 3 cards.</item>
+    /// <item>Generate this run's collected miracles into the hand (M5).</item>
     /// </list>
     /// The card's own cost-0 and damage immunity, plus all cleanup/exit work, live in
     /// <see cref="OmnisciencePower"/>.
@@ -53,12 +59,24 @@ public static class Omniscience
         var divinity = player.GetResource<BelieverDivinityResource>();
         if (divinity == null || !divinity.TrySpend(BelieverDivinityResource.MaxAmount)) return;
 
-        await PowerCmd.Apply<OmnisciencePower>(
+        var power = await PowerCmd.Apply<OmnisciencePower>(
             choiceContext, player.Creature, 1m, player.Creature, source);
 
+        if (power == null)
+        {
+            MainFile.Logger.Error("[Miracles] OmnisciencePower could not be applied; skipping form setup.");
+            return;
+        }
+
         await RemoveDebuffs(player);
+
+        // Collect before drawing so the max hand size raised for the form is already in place when the
+        // draw and the miracle generation add cards. Miracles collected in this run are unique by id.
+        var collectedMiracles = CollectCollectedMiracles(player);
+        power.SetMiraclesToGrant(collectedMiracles.Count);
+
         await CardPileCmd.Draw(choiceContext, CardsDrawnOnEnter, player);
-        await GrantMiracles(player);
+        await GrantMiracles(player, power, collectedMiracles);
     }
 
     /// <summary>
@@ -86,35 +104,107 @@ public static class Omniscience
     }
 
     /// <summary>
-    /// Grants every Miracle the run has unlocked. The registry returns canonical models; each is
-    /// created as a mutable combat instance and added to the hand through
-    /// <c>CardPileCmd.AddGeneratedCardsToCombat</c>, which is also what records them in combat
-    /// history as player-generated cards.
+    /// The run's collected miracles (M4), resolved to canonical <see cref="MiracleCard"/> models and
+    /// deduplicated by <see cref="ModelId"/>. Unowned miracles are not included, and ids that no
+    /// longer resolve (removed/unimplemented miracle) are skipped by
+    /// <c>MiracleCollectionStore.GetOwnedMiracleCards</c> with a warning, so a stale save cannot crash
+    /// the form.
     /// </summary>
-    private static async Task GrantMiracles(Player player)
+    private static List<MiracleCard> CollectCollectedMiracles(Player player)
     {
-        var unlocked = MiracleRegistry.GetUnlockedMiracles(player);
-        if (unlocked.Count == 0) return;
+        var collected = new List<MiracleCard>();
+        var seen = new HashSet<ModelId>();
 
-        var combatState = player.Creature.CombatState;
-        if (combatState == null) return;
-
-        var cards = new List<CardModel>(unlocked.Count);
-        foreach (var canonical in unlocked)
+        foreach (var card in MiracleRegistry.GetUnlockedMiracles(player))
         {
-            cards.Add(combatState.CreateCard(canonical, player));
+            if (card is not MiracleCard miracle) continue;
+            if (!seen.Add(miracle.Id)) continue;
+            collected.Add(miracle);
         }
 
-        await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, player);
+        return collected;
     }
 
     /// <summary>
-    /// Removes every Miracle card still in a combat pile for this player. Called from
-    /// <see cref="OmnisciencePower.BeforeSideTurnEnd"/> (before the hand is flushed) and therefore
-    /// also catches Miracles that were pushed into the discard pile because the hand was full when
-    /// they were granted.
+    /// Generates every collected miracle as a temporary combat card in the player's hand.
+    ///
+    /// Guarantees:
+    /// <list type="bullet">
+    /// <item>Once per form: the power records that generation already happened, so a repeated event
+    /// cannot generate a second copy.</item>
+    /// <item>No duplicates: the canonical list is deduplicated by id, and any stale MiracleCard left in
+    /// combat is cleaned before generating.</item>
+    /// <item>Never in the deck: <c>ICombatState.CreateCard</c> only creates combat instances, and
+    /// generation goes through <c>CardPileCmd.AddGeneratedCardsToCombat</c>.</item>
+    /// <item>Nothing silently lost: after adding, the hand is verified and any card that did not land
+    /// in the hand is reported (and retried) instead of being silently discarded.</item>
+    /// </list>
     /// </summary>
-    public static async Task CleanUpUnusedMiracles(Player player)
+    private static async Task GrantMiracles(
+        Player player, OmnisciencePower power, IReadOnlyList<MiracleCard> collectedMiracles)
+    {
+        if (power.MiraclesGranted) return;
+        power.MarkMiraclesGranted();
+
+        if (collectedMiracles.Count == 0) return;
+
+        var combatState = player.Creature.CombatState;
+        if (combatState == null)
+        {
+            MainFile.Logger.Error("[Miracles] Cannot generate miracles: no combat state.");
+            return;
+        }
+
+        // Safety net: leftovers from a previous form (should never exist) must not duplicate this form's
+        // miracles.
+        await CleanUpMiracles(player);
+
+        var generated = new List<CardModel>(collectedMiracles.Count);
+        foreach (var canonical in collectedMiracles)
+        {
+            generated.Add(combatState.CreateCard(canonical, player));
+        }
+
+        await CardPileCmd.AddGeneratedCardsToCombat(generated, PileType.Hand, player);
+        await EnsureMiraclesInHand(generated);
+
+        MainFile.Logger.Info(
+            $"[Miracles] Generated {generated.Count} miracle(s) for Omniscience; hand is now {PileType.Hand.GetPile(player).Cards.Count} card(s).");
+    }
+
+    /// <summary>
+    /// Verifies that generated miracles actually ended up in the hand. With the form's raised max hand
+    /// size (BaseLib <c>IMaxHandSizeModifier</c>) the engine's hand-full fallback should never trigger;
+    /// if it ever does, the card is moved back and any remaining failure is logged loudly instead of
+    /// being silently lost.
+    /// </summary>
+    private static async Task EnsureMiraclesInHand(IReadOnlyList<CardModel> generated)
+    {
+        foreach (var card in generated)
+        {
+            if (card.Pile?.Type == PileType.Hand) continue;
+
+            MainFile.Logger.Warn(
+                $"[Miracles] Generated miracle '{card.Id.Entry}' did not land in hand (pile: {card.Pile?.Type.ToString() ?? "none"}); retrying.");
+
+            await CardPileCmd.Add(card, PileType.Hand, CardPilePosition.Top);
+
+            if (card.Pile?.Type != PileType.Hand)
+            {
+                MainFile.Logger.Error(
+                    $"[Miracles] Miracle '{card.Id.Entry}' could not be placed in hand (pile: {card.Pile?.Type.ToString() ?? "none"}).");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Removes every MiracleCard owned by this player from every combat pile: hand, draw, discard,
+    /// exhaust and play. Called at the end of the owner's turn (before the hand is flushed) and again
+    /// when the form is removed, so neither unplayed nor already-played miracles can survive the form
+    /// or reach the permanent deck. It only touches generated miracle instances - never the run's
+    /// collection (M4) and never normal cards.
+    /// </summary>
+    public static async Task CleanUpMiracles(Player player)
     {
         if (!CombatManager.Instance.IsInProgress) return;
 
@@ -127,7 +217,23 @@ public static class Omniscience
 
         foreach (var miracle in miracles)
         {
+            if (miracle.Pile?.Type == PileType.Play)
+            {
+                // A card that is currently being played is finished by the play pipeline; removing it
+                // mid-play would break the card play.
+                MainFile.Logger.Warn(
+                    $"[Miracles] Miracle '{miracle.Id.Entry}' is being played; leaving it to the play pipeline.");
+                continue;
+            }
+
             await CardPileCmd.RemoveFromCombat(miracle);
+        }
+
+        var leftover = playerCombatState.AllCards.Count(card =>
+            card != null && MiracleRegistry.IsMiracle(card) && card.Pile?.Type != PileType.Play);
+        if (leftover > 0)
+        {
+            MainFile.Logger.Error($"[Miracles] {leftover} miracle card(s) still remain in combat after cleanup.");
         }
     }
 

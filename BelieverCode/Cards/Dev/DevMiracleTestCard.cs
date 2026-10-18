@@ -10,15 +10,14 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace Believer.BelieverCode.Cards.Dev;
 
 /// <summary>
-/// DEVELOPMENT-ONLY test Miracle. It exists only so the whole Omniscience pipeline can be exercised
-/// end to end before the 神迹收藏 (Miracle collection) system and the real 12 Miracles exist:
-/// grant -> hand -> only playable inside Omniscience -> exhausts on play -> leftovers cleaned up at
-/// end of turn.
+/// DEVELOPMENT-ONLY test Miracle, reused by M5 to verify the full collection/generation/use/cleanup
+/// pipeline before the real 12 Miracles exist: collect it (dev console "miracle add"), enter
+/// Omniscience -> it is generated into the hand -> only playable inside the form -> exhausts on play
+/// -> leftovers are cleaned up when the form ends.
 ///
-/// It is supplied by <see cref="DevMiracleProvider"/> and lives in
-/// <see cref="BelieverSignatureCardPool"/>, which is neither a character pool nor a shared pool, so
-/// it is never offered as a reward and never appears in the card library. It is NOT one of the 12
-/// official Miracles and must be removed once the real collection system lands.
+/// It lives in <see cref="BelieverSignatureCardPool"/>, which is neither a character pool nor a
+/// shared pool, so it is never offered as a reward and never appears in the card library. It is NOT
+/// one of the 12 official Miracles; M6 replaces it with the real Miracle cards.
 /// </summary>
 [Pool(typeof(BelieverSignatureCardPool))]
 public sealed class DevMiracleTestCard() : MiracleCard(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)

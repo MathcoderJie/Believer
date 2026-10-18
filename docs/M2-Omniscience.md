@@ -1,5 +1,9 @@
 # M2 全知全能 · 设计与实现说明
 
+> **M5 更新**：文中提到的开发占位 `DevMiracleProvider` 已被 `MiracleCollectionProvider` 取代
+> （全知全能现在只发放本局收藏的神迹），神迹生成/手牌上限/清理逻辑见 `docs/M5-OmniscienceMiracles.md`。
+> 本文其余 M2 设计仍然有效。
+
 本文件记录里程碑 M2「全知全能核心机制」的设计决策、实现方式、接口约定与验证结果。
 M1 的神性（Divinity）系统保持原样，仅做增量接入。
 
