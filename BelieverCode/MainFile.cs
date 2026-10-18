@@ -34,5 +34,28 @@ public partial class MainFile : Node
         Harmony harmony = new(ModId);
 
         harmony.PatchAll(assembly);
+
+        LogDivinityObserverPatchStatus();
+
+        // M7 追加: the 全知全能 ability card is no longer part of the starting deck (the deck is the
+        // 10 basic cards), so it is granted into the hand at the start of each combat instead.
+        Mechanics.OmniscienceAvailability.Initialize();
+    }
+
+    /// <summary>
+    /// Logs whether the M1 Divinity gain observation patch (used by 追击 / 信标 / 施予) is attached.
+    /// The patch is observation-only; this line makes a failed application visible in godot.log.
+    /// </summary>
+    private static void LogDivinityObserverPatchStatus()
+    {
+        var gainMethod = AccessTools.Method(
+            typeof(Resources.BelieverDivinityResource),
+            nameof(Resources.BelieverDivinityResource.Gain));
+
+        var patchInfo = gainMethod == null ? null : Harmony.GetPatchInfo(gainMethod);
+        var prefixes = patchInfo?.Prefixes?.Count ?? 0;
+        var postfixes = patchInfo?.Postfixes?.Count ?? 0;
+
+        Logger.Info($"[Patches] Divinity gain observer: prefix={prefixes}, postfix={postfixes}.");
     }
 }

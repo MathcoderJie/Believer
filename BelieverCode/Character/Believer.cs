@@ -1,12 +1,11 @@
 using BaseLib.Abstracts;
 using BaseLib.Utils.NodeFactories;
-using Believer.BelieverCode.Cards;
+using Believer.BelieverCode.Cards.Basic;
 using Believer.BelieverCode.Extensions;
 using Believer.BelieverCode.Relics;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
 
 namespace Believer.BelieverCode.Character;
 
@@ -20,21 +19,25 @@ public class Believer : PlaceholderCharacterModel
     public override CharacterGender Gender => CharacterGender.Neutral;
     public override int StartingHp => 70;
     
+    /// <summary>
+    /// 初始卡组 / starting deck - exactly 10 cards: 5 打击, 4 防御, 1 凝神.
+    ///
+    /// The 全知全能 / Omniscience ability card is deliberately NOT part of the deck (the deck must be
+    /// exactly the 10 basic cards). It is granted into the player's hand when a combat starts - see
+    /// <c>Mechanics.OmniscienceAvailability</c> - so the core mechanic stays usable without counting
+    /// against the starting deck.
+    /// </summary>
     public override IEnumerable<CardModel> StartingDeck => [
-        // 全知全能 / Omniscience: the Believer's active ability. Unlike the rest of the starting
-        // deck it is not a deck-building card - it is non-collectible, Innate + Retain, and never
-        // leaves the hand except while the form is active (see OmniscienceCard/OmnisciencePower).
-        ModelDb.Card<OmniscienceCard>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>()
+        ModelDb.Card<StrikeBeliever>(),
+        ModelDb.Card<StrikeBeliever>(),
+        ModelDb.Card<StrikeBeliever>(),
+        ModelDb.Card<StrikeBeliever>(),
+        ModelDb.Card<StrikeBeliever>(),
+        ModelDb.Card<DefendBeliever>(),
+        ModelDb.Card<DefendBeliever>(),
+        ModelDb.Card<DefendBeliever>(),
+        ModelDb.Card<DefendBeliever>(),
+        ModelDb.Card<Focus>()
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>
