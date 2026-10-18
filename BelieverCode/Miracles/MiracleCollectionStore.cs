@@ -72,11 +72,19 @@ public static class MiracleCollectionStore
         return GetOrCreate(player.RunState);
     }
 
-    /// <summary>Adds a miracle to the player's run collection.</summary>
+    /// <summary>
+    /// Adds a miracle to the player's run collection.
+    ///
+    /// A run that has not collected anything yet has no collection instance, so this must create the
+    /// collection on first use (<see cref="GetOrCreate(Player)"/>). Using the read-only
+    /// <see cref="Find(Player?)"/> here would wrongly report "no active run" the first time anything is
+    /// added, which is exactly what the in-game dev command hit.
+    /// </summary>
     public static MiracleAddResult TryAdd(Player? player, MiracleId id)
     {
-        var collection = Find(player);
-        return collection == null ? MiracleAddResult.NoActiveRun : collection.TryAdd(id);
+        if (player == null || player.RunState is NullRunState) return MiracleAddResult.NoActiveRun;
+
+        return GetOrCreate(player.RunState).TryAdd(id);
     }
 
     /// <summary>True when the player's run has collected the given miracle.</summary>

@@ -58,7 +58,8 @@ public static class MiracleCatalog
             }
         }
 
-        MainFile.Logger.Info($"[Miracles] Catalog contains {cardsByEntry.Count} miracle id(s).");
+        MainFile.Logger.Info(
+            $"[Miracles] Catalog contains {cardsByEntry.Count} miracle id(s): {string.Join(", ", cardsByEntry.Keys.OrderBy(key => key, StringComparer.Ordinal))}");
         return cardsByEntry;
     }
 
