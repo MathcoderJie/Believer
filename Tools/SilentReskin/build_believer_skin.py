@@ -64,33 +64,38 @@ CLOTH = {
 }
 HOOD_LINING = {"bottom hood"}
 WRAP = {
-    "back arm", "back arm 1", "back arm 2", "bottom foot", "bottom leg bottom", "bottom leg top",
-    "death_half_scale/death_bottom leg", "death_half_scale/death_neck",
-    "death_half_scale/death_top leg", "neck bottom", "neck top", "top arm", "top foot",
-    "top leg",
+    "back arm", "back arm 1", "back arm 2", "death_half_scale/death_neck",
+    "neck bottom", "neck top", "top arm",
 }
 SKIN = {"back hand", "back hand 2", "shiv_hand", "top hand", "top hand 2"}
 DARK = {"eye"}
 HIDE = {
     "bottom horn", "top horn", "death_half_scale/death_antlers", "hair", "hair top",
     "death_half_scale/death_hair", "skull", "death_half_scale/death_skull",
+    "top foot", "bottom foot",
 }
 HOOD_VOID = {"head"}
 GOLD = {"badge", "death_half_scale/death_spine sash"}
 HIDE_WEAPON = {
     "back dagger", "top dagger", "blade_shine", "blade_twirls", "shiv_blur",
 }
+UNDERROBE = {
+    "top leg", "bottom leg bottom", "bottom leg top",
+    "death_half_scale/death_bottom leg", "death_half_scale/death_top leg",
+}
+CUFF = {"top arm", "back arm", "back arm 1", "back arm 2"}
+ATTACK_CAPE = {"cape_front_attack", "cape_back_attack"}
 KEEP = {"shadow", "slash"}
 
-IVORY_DARK = np.array([0.36, 0.32, 0.25], np.float32)
-IVORY_MID = np.array([0.78, 0.74, 0.64], np.float32)
-IVORY_LIGHT = np.array([0.97, 0.95, 0.89], np.float32)
+IVORY_DARK = np.array([0.40, 0.36, 0.29], np.float32)
+IVORY_MID = np.array([0.84, 0.80, 0.70], np.float32)
+IVORY_LIGHT = np.array([1.00, 0.98, 0.93], np.float32)
 GOLD_DARK = np.array([0.42, 0.28, 0.08], np.float32)
 GOLD_MID = np.array([0.80, 0.62, 0.24], np.float32)
 GOLD_LIGHT = np.array([0.99, 0.90, 0.63], np.float32)
-SKIN_DARK = np.array([0.34, 0.29, 0.24], np.float32)
-SKIN_MID = np.array([0.62, 0.55, 0.47], np.float32)
-SKIN_LIGHT = np.array([0.80, 0.74, 0.65], np.float32)
+SKIN_DARK = np.array([0.30, 0.26, 0.22], np.float32)
+SKIN_MID = np.array([0.55, 0.49, 0.42], np.float32)
+SKIN_LIGHT = np.array([0.74, 0.68, 0.60], np.float32)
 
 
 def tri_map(lum, dark, mid, light):
@@ -161,10 +166,21 @@ def paint_region(name, crop, kind):
                        np.array([0.10, 0.09, 0.08], np.float32),
                        np.array([0.20, 0.18, 0.16], np.float32))
     elif kind == "wrap":
-        base = tri_map(lum, np.array([0.45, 0.41, 0.35], np.float32),
-                       np.array([0.80, 0.76, 0.68], np.float32),
+        # smooth away the original bandage stripes, then paint soft ivory sleeve cloth
+        lum_img = Image.fromarray((lum[..., 0] * 255).astype(np.uint8), "L").filter(ImageFilter.GaussianBlur(2.2))
+        smooth = np.array(lum_img, np.float32)[..., None] / 255.0
+        base = tri_map(smooth, np.array([0.40, 0.36, 0.30], np.float32),
+                       np.array([0.78, 0.74, 0.66], np.float32),
                        np.array([0.97, 0.95, 0.90], np.float32))
-        base += (g - 0.5) * 0.06
+        yy = np.linspace(0, 1, h, dtype=np.float32)[:, None, None]
+        base *= (1.0 - 0.10 * yy)
+        base += (g - 0.5) * 0.05
+    elif kind == "underrobe":
+        # dark grey cloth interior so leg/foot silhouettes read as shadow inside the robe
+        base = tri_map(lum, np.array([0.18, 0.16, 0.14], np.float32),
+                       np.array([0.30, 0.28, 0.24], np.float32),
+                       np.array([0.44, 0.41, 0.36], np.float32))
+        base += (g - 0.5) * 0.04
     elif kind == "skin":
         base = tri_map(lum, SKIN_DARK, SKIN_MID, SKIN_LIGHT)
     elif kind == "dark":
@@ -193,7 +209,64 @@ def paint_region(name, crop, kind):
     return rgba
 
 
-def draw_seal(rgba, radius_scale=0.36):
+def add_cuff(rgba):
+    """Gold cuffs at both ends of a sleeve strip (kept subtle, no bone/mesh changes)."""
+    h, w = rgba.shape[:2]
+    ss = 3
+    mask = Image.new("L", (w * ss, h * ss), 0)
+    d = ImageDraw.Draw(mask)
+    horizontal = w >= h
+    band = max(2 * ss, int((w if horizontal else h) * ss * 0.09))
+    if horizontal:
+        d.rectangle([2 * ss, 0, band, h * ss], fill=255)
+        d.rectangle([w * ss - band - 2 * ss, 0, w * ss - 2 * ss, h * ss], fill=255)
+    else:
+        d.rectangle([0, 2 * ss, w * ss, band], fill=255)
+        d.rectangle([0, h * ss - band - 2 * ss, w * ss, h * ss - 2 * ss], fill=255)
+    mask = mask.resize((w, h), Image.LANCZOS)
+    m = np.array(mask, np.float32) / 255.0
+    m *= (rgba[..., 3] / 255.0)
+    m = m[..., None]
+    gold = np.array(GOLD_MID, np.float32) * 255.0
+    out = rgba.copy()
+    out[..., :3] = out[..., :3] * (1 - m) + gold * m
+    return out
+
+
+def add_belt(rgba, rotated):
+    """Draw a narrow gold belt band across the displayed torso region."""
+    base = np.clip(rgba, 0, 255).astype(np.uint8)
+    disp = base
+    if rotated:
+        disp = np.array(Image.fromarray(base, "RGBA").rotate(-90, expand=True))
+    h, w = disp.shape[:2]
+    ss = 4
+    band = max(3, int(h * 0.055))
+    canvas = Image.new("RGBA", (w * ss, h * ss), (0, 0, 0, 0))
+    d = ImageDraw.Draw(canvas)
+    y = int(h * 0.66 * ss)
+    gold = (int(GOLD_MID[0] * 255), int(GOLD_MID[1] * 255), int(GOLD_MID[2] * 255), 255)
+    dark = (int(GOLD_DARK[0] * 255), int(GOLD_DARK[1] * 255), int(GOLD_DARK[2] * 255), 255)
+    light = (int(GOLD_LIGHT[0] * 255), int(GOLD_LIGHT[1] * 255), int(GOLD_LIGHT[2] * 255), 255)
+    d.rectangle([0, y, w * ss, y + band * ss], fill=gold)
+    d.rectangle([0, y + band * ss, w * ss, y + int(band * 1.5) * ss], fill=dark)
+    d.rectangle([0, y - int(band * 0.45) * ss, w * ss, y], fill=light)
+    # simple center buckle
+    cx = w * ss / 2
+    r = band * ss * 0.9
+    d.ellipse([cx - r, y - r * 0.1, cx + r, y + band * ss + r * 0.1], fill=gold)
+    d.ellipse([cx - r * 0.55, y + band * ss * 0.2, cx + r * 0.55, y + band * ss * 0.8], fill=light)
+    belt = np.array(canvas.resize((w, h), Image.LANCZOS), np.float32)
+    m = (belt[..., 3:4] / 255.0) * (disp[..., 3:4] / 255.0)
+    out = disp.copy()
+    out[..., :3] = out[..., :3] * (1 - m) + belt[..., :3] * m
+    if rotated:
+        out = np.array(Image.fromarray(out.astype(np.uint8), "RGBA").rotate(-90, expand=True))
+        out = out[:rgba.shape[0], :rgba.shape[1]]
+    return out.astype(np.uint8)
+
+
+def draw_seal(rgba, radius_scale=0.52):
     """Draw a symmetrical gold seal (ring + disc + rays) in the middle of a torso region."""
     h, w = rgba.shape[:2]
     ss = 4
@@ -245,11 +318,21 @@ for region in regions:
         crop = paint_region(name, crop, "cloth")
         if name in ("torso copy", "death_half_scale/death_torso"):
             crop = draw_seal(crop)
+            if name == "torso copy":
+                crop = add_belt(crop, region.get("rotate") == 90)
     elif name in WRAP:
         crop = paint_region(name, crop, "wrap")
+    elif name in UNDERROBE:
+        crop = paint_region(name, crop, "underrobe")
     elif name == "slash":
         crop = paint_region(name, crop, "slash")
     # shadow and anything unknown: keep original
+
+    if name in CUFF:
+        crop = add_cuff(crop)
+    if name in ATTACK_CAPE:
+        # The native attack cape is deliberately huge; soften its opacity so the body stays readable
+        crop[..., 3] = (crop[..., 3].astype(np.float32) * 0.28).astype(np.uint8)
 
     arr[y:y + h, x:x + w] = crop
 
