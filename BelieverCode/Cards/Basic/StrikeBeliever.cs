@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace Believer.BelieverCode.Cards.Basic;
 
 /// <summary>1/8 打击 / Strike - 1 cost, deal 6 damage (9 upgraded).</summary>
-public sealed class StrikeBeliever() : BelieverCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+public sealed class StrikeBeliever() : BelieverCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => new() { CardTag.Strike };
 

@@ -1,3 +1,4 @@
+using Believer.BelieverCode.Cards.Miracles;
 using Believer.BelieverCode.Miracles;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -32,7 +33,7 @@ public sealed class ArmyOfTheLordPower : BelieverPower
         var player = Owner.Player;
         if (player == null) return;
         if (cardPlay.Card.Owner != player) return;
-        if (cardPlay.Card is MiracleCard) return;
+        if (!MiracleRules.IsOrdinaryCard(cardPlay.Card)) return;
         if (!cardPlay.IsFirstInSeries) return;
         if (Amount <= 0) return;
 

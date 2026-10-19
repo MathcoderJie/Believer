@@ -1,4 +1,4 @@
-﻿using BaseLib.Abstracts;
+using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using BaseLib.Utils;
 using Believer.BelieverCode.Character;
@@ -17,6 +17,12 @@ namespace Believer.BelieverCode.Cards;
 public abstract class BelieverCard(int cost, CardType type, CardRarity rarity, TargetType target) :
     CustomCardModel(cost, type, rarity, target)
 {
+    /// <summary>
+    /// All normal Believer cards are smith-upgradable. The 12 Miracles override this to 0 because
+    /// no upgraded Miracle design exists yet; starting cards keep the standard one-level upgrade.
+    /// </summary>
+    public override int MaxUpgradeLevel => 1;
+
     //Image size:
     //Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)
     //Full art: 606x852

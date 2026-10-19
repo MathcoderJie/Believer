@@ -14,7 +14,7 @@ namespace Believer.BelieverCode.Cards.Basic;
 /// The Divinity gain goes through M1's resource API (<see cref="BelieverDivinityResource.Gain"/>),
 /// which clamps the value to 7. Gaining happens before the draw, as specified.
 /// </summary>
-public sealed class Focus() : BelieverCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+public sealed class Focus() : BelieverCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {

@@ -9,8 +9,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace Believer.BelieverCode.Cards.Miracles;
 
 /// <summary>1/12 要有光 / Let There Be Light - 30 damage to all enemies + 2 Vulnerable.</summary>
-[Pool(typeof(BelieverSignatureCardPool))]
-public sealed class LetThereBeLight() : MiracleCard(0, CardType.Skill, CardRarity.Token, TargetType.Self)
+public sealed class LetThereBeLight() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

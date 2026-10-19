@@ -193,7 +193,7 @@ public sealed class OmnisciencePower : BelieverPower, IMaxHandSizeModifier
         var retained = 0;
         foreach (var card in playerCombatState.AllCards)
         {
-            if (card == null || !MiracleRegistry.IsMiracle(card)) continue;
+            if (card == null || !MiracleRegistry.IsEnhancedMiracle(card)) continue;
             if (card.Pile?.Type != PileType.Hand) continue;
 
             card.GiveSingleTurnRetain();

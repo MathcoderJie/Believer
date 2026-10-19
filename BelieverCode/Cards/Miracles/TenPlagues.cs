@@ -14,8 +14,7 @@ namespace Believer.BelieverCode.Cards.Miracles;
 /// chosen once for the whole attack), so <c>WithHitCount(10)</c> + <c>TargetingRandomOpponents</c>
 /// gives ten independently resolved attacks.
 /// </summary>
-[Pool(typeof(BelieverSignatureCardPool))]
-public sealed class TenPlagues() : MiracleCard(0, CardType.Skill, CardRarity.Token, TargetType.Self)
+public sealed class TenPlagues() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     private const int HitCount = 10;
     private const decimal DamagePerHit = 6m;

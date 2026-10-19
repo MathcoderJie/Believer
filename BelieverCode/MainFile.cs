@@ -36,6 +36,7 @@ public partial class MainFile : Node
         harmony.PatchAll(assembly);
 
         LogDivinityObserverPatchStatus();
+        LogMiracleRewardPatchStatus();
 
         // M7 追加: the 全知全能 ability card is no longer part of the starting deck (the deck is the
         // 10 basic cards), so it is granted into the hand at the start of each combat instead.
@@ -43,9 +44,28 @@ public partial class MainFile : Node
     }
 
     /// <summary>
-    /// Logs whether the M1 Divinity gain observation patch (used by 追击 / 信标 / 施予) is attached.
-    /// The patch is observation-only; this line makes a failed application visible in godot.log.
+    /// Logs whether the normal-Miracle acquisition observer attached. A missed Harmony target would
+    /// otherwise leave Omniscience unaware of acquired rare Miracles while the build still succeeds.
     /// </summary>
+    private static void LogMiracleRewardPatchStatus()
+    {
+        var add = AccessTools.Method(
+            typeof(MegaCrit.Sts2.Core.Commands.CardPileCmd),
+            "Add",
+            new[]
+            {
+                typeof(MegaCrit.Sts2.Core.Models.CardModel),
+                typeof(MegaCrit.Sts2.Core.Entities.Cards.PileType),
+                typeof(MegaCrit.Sts2.Core.Entities.Cards.CardPilePosition),
+                typeof(MegaCrit.Sts2.Core.Models.AbstractModel),
+                typeof(bool),
+            });
+        var addInfo = add == null ? null : Harmony.GetPatchInfo(add);
+        Logger.Info(
+            $"[Patches] Miracle acquisition observer: deck-add prefix={(addInfo?.Prefixes?.Count ?? 0)}, " +
+            $"targetFound={add != null}.");
+    }
+
     private static void LogDivinityObserverPatchStatus()
     {
         var gainMethod = AccessTools.Method(

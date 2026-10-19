@@ -15,8 +15,7 @@ namespace Believer.BelieverCode.Cards.Miracles;
 /// The base game has no per-monster boss flag, so bosses are identified through the encounter's room
 /// type (<see cref="MiracleRules.IsBossEnemy"/>).
 /// </summary>
-[Pool(typeof(BelieverSignatureCardPool))]
-public sealed class WhiteThroneJudgment() : MiracleCard(0, CardType.Skill, CardRarity.Token, TargetType.Self)
+public sealed class WhiteThroneJudgment() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     private const decimal BoardDamage = 35m;
     private const decimal BossExtraDamage = 40m;

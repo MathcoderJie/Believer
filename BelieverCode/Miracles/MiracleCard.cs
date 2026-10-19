@@ -1,40 +1,38 @@
-using Believer.BelieverCode.Cards.Signature;
-using Believer.BelieverCode.Powers;
+using Believer.BelieverCode.Cards;
+using Believer.BelieverCode.Keywords;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace Believer.BelieverCode.Miracles;
 
 /// <summary>
-/// Base class for 神迹 / Miracle cards: temporary cards that Omniscience grants from the run's
-/// unlocked Miracles and that may only be used while Omniscience is active.
+/// Base class for the 12 神迹 / Miracle cards.
 ///
-/// Contract (all enforced by the M2 core, none of it needs to be repeated by a concrete Miracle):
-/// <list type="bullet">
-/// <item><see cref="CardKeyword.Exhaust"/> - a played Miracle always leaves combat, so it can never
-/// be shuffled back into the draw pile or played outside Omniscience.</item>
-/// <item><see cref="IsPlayable"/> - a Miracle is only playable while its owner has
-/// <see cref="OmnisciencePower"/>, even if a card somehow outlives the form.</item>
-/// <item>Cleanup - any Miracle still in a combat pile when the owner's turn ends is removed from
-/// combat by the Omniscience power, so unplayed Miracles never persist.</item>
-/// </list>
+/// Normal rule (M10.4): a Miracle is a regular collectible Rare card in
+/// <see cref="Character.BelieverCardPool"/> by inheriting <see cref="BelieverCard"/>. It can be
+/// obtained from ordinary rare-card rewards, can be played outside Omniscience, and is no longer
+/// auto-Exhausted by this base class. Its only automatic keyword is the stable
+/// <see cref="BelieverKeywords.Miracle"/> marker; individual cards may add their own keywords.
 ///
-/// M2 intentionally ships no complete set of the 12 Miracles - only this base class and one
-/// development-only test Miracle.
+/// Omniscience does not grant these canonical cards directly: it creates temporary enhanced copies
+/// (see EnhancedMiracleCard) so the base card's effect and deck state are never overwritten.
 /// </summary>
 public abstract class MiracleCard(int cost, CardType type, CardRarity rarity, TargetType target)
-    : BelieverSignatureCard(cost, type, rarity, target)
+    : BelieverCard(cost, type, rarity, target)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [BelieverKeywords.Miracle];
 
-    protected override bool IsPlayable
-    {
-        get
-        {
-            // Canonical instances have no owner; they are only used for previews.
-            if (!IsMutable) return false;
+    /// <summary>
+    /// The 12 base Miracles have no upgrade design yet; they remain normal playable Rare cards but
+    /// do not offer a misleading no-op smith upgrade.
+    /// </summary>
+    public override int MaxUpgradeLevel => 0;
 
-            var owner = Owner;
-            return owner != null && owner.Creature != null && owner.Creature.HasPower<OmnisciencePower>();
-        }
-    }
+    /// <summary>
+    /// Allows the enhanced-card wrapper to invoke this card's exact base effect without copying the
+    /// effect implementation. The wrapper owns the temporary combat instance; this method runs on a
+    /// normal combat card model with the same owner.
+    /// </summary>
+    internal Task ExecuteBaseEffect(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+        => OnPlay(choiceContext, cardPlay);
 }

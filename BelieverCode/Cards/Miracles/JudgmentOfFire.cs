@@ -11,8 +11,7 @@ namespace Believer.BelieverCode.Cards.Miracles;
 /// 7/12 天火审判 / Judgment of Fire - 70 damage to one enemy; if that kills it, 25 damage to all
 /// other enemies.
 /// </summary>
-[Pool(typeof(BelieverSignatureCardPool))]
-public sealed class JudgmentOfFire() : MiracleCard(0, CardType.Skill, CardRarity.Token, TargetType.AnyEnemy)
+public sealed class JudgmentOfFire() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

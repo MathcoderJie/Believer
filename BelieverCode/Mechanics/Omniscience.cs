@@ -167,14 +167,21 @@ public static class Omniscience
         var generated = new List<CardModel>(collectedMiracles.Count);
         foreach (var canonical in collectedMiracles)
         {
-            generated.Add(combatState.CreateCard(canonical, player));
+            var enhanced = MiracleEnhancements.GetEnhancedCanonical(canonical);
+            if (enhanced == null)
+            {
+                MainFile.Logger.Warn(
+                    $"[Miracles] No enhanced form is defined for '{canonical.Id.Entry}'; skipping it.");
+                continue;
+            }
+            generated.Add(combatState.CreateCard(enhanced, player));
         }
 
         await CardPileCmd.AddGeneratedCardsToCombat(generated, PileType.Hand, player);
         await EnsureMiraclesInHand(generated);
 
         MainFile.Logger.Info(
-            $"[Miracles] Generated {generated.Count} miracle(s) for Omniscience; hand is now {PileType.Hand.GetPile(player).Cards.Count} card(s).");
+            $"[Miracles] Generated {generated.Count} enhanced miracle(s) for Omniscience; hand is now {PileType.Hand.GetPile(player).Cards.Count} card(s).");
     }
 
     /// <summary>
@@ -241,7 +248,7 @@ public static class Omniscience
         if (playerCombatState == null) return;
 
         var miracles = playerCombatState.AllCards
-            .Where(card => card != null && MiracleRegistry.IsMiracle(card))
+            .Where(card => card != null && MiracleRegistry.IsEnhancedMiracle(card))
             .ToList();
 
         foreach (var miracle in miracles)
@@ -259,7 +266,7 @@ public static class Omniscience
         }
 
         var leftover = playerCombatState.AllCards.Count(card =>
-            card != null && MiracleRegistry.IsMiracle(card) && card.Pile?.Type != PileType.Play);
+            card != null && MiracleRegistry.IsEnhancedMiracle(card) && card.Pile?.Type != PileType.Play);
         if (leftover > 0)
         {
             MainFile.Logger.Error($"[Miracles] {leftover} miracle card(s) still remain in combat after cleanup.");

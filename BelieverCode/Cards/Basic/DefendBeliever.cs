@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace Believer.BelieverCode.Cards.Basic;
 
 /// <summary>5/8 防御 / Defend - 1 cost, gain 5 Block (8 upgraded).</summary>
-public sealed class DefendBeliever() : BelieverCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+public sealed class DefendBeliever() : BelieverCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
 {
     public override bool GainsBlock => true;
 

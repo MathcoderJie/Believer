@@ -19,8 +19,7 @@ namespace Believer.BelieverCode.Cards.Miracles;
 /// at the end of the turn. Only ordinary cards can be copied: 神迹 cards and existing temporary copies
 /// (clones) are filtered out, so copies cannot be chained.
 /// </summary>
-[Pool(typeof(BelieverSignatureCardPool))]
-public sealed class FiveLoavesAndTwoFish() : MiracleCard(0, CardType.Skill, CardRarity.Token, TargetType.Self)
+public sealed class FiveLoavesAndTwoFish() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     private const int CopyCount = 3;
 
