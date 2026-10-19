@@ -1,0 +1,248 @@
+believer_ironclad.png
+size:1000,269
+filter:Linear,Linear
+scale:0.32
+back mask
+bounds:384,69,48,42
+rotate:90
+belt
+bounds:936,82,72,28
+rotate:90
+belt 2
+bounds:976,59,22,30
+offsets:0,1,22,31
+belt 3
+bounds:648,2,23,39
+bod
+bounds:200,35,82,96
+rotate:90
+bottom lower arm
+bounds:617,50,42,33
+offsets:9,0,51,34
+bottom upper arm
+bounds:966,91,28,63
+bottom_hand
+bounds:264,6,29,27
+offsets:0,0,29,28
+bottom_hand_fingers
+bounds:756,2,29,27
+offsets:0,0,29,28
+rotate:90
+collar_back
+bounds:785,7,39,15
+rotate:90
+eye glow
+bounds:976,33,24,22
+rotate:90
+hair
+bounds:501,122,24,39
+head
+bounds:936,33,38,47
+hip armor right back
+bounds:889,12,16,19
+hip bottom armor
+bounds:866,12,19,21
+rotate:90
+hip top bottom
+bounds:497,33,9,13
+hips
+bounds:298,2,76,48
+l foot
+bounds:661,46,48,37
+l hip armor bottom
+bounds:557,50,58,33
+l hip armor top
+bounds:497,48,58,35
+offsets:1,0,59,35
+l knee
+bounds:563,2,46,45
+offsets:0,0,47,45
+rotate:90
+l lower leg
+bounds:949,187,43,80
+offsets:4,6,47,86
+l neck armor
+bounds:428,69,20,24
+rotate:90
+l shoulder armor bottom
+bounds:949,156,35,29
+l shoulder armor top
+bounds:802,4,34,27
+l upper leg
+bounds:428,91,70,71
+rotate:90
+neck
+bounds:610,2,36,46
+r foot
+bounds:673,10,31,34
+r hip armor bottom
+bounds:193,2,69,31
+r hip armor top
+bounds:454,2,71,29
+r knee
+bounds:711,43,45,40
+offsets:0,0,47,40
+r lower leg
+bounds:2,4,53,63
+offsets:0,0,53,68
+rotate:90
+r neck armor
+bounds:501,90,30,24
+rotate:90
+r shoulder armor bottom
+bounds:758,48,44,35
+offsets:0,0,46,35
+r shoulder armor top
+bounds:706,14,48,27
+offsets:0,0,48,28
+r upper leg
+bounds:298,52,65,84
+rotate:90
+shadow
+bounds:200,119,226,42
+offsets:5,1,232,44
+shine
+bounds:838,16,26,15
+offsets:0,0,26,16
+slash
+bounds:528,85,282,182
+offsets:0,0,293,182
+slash2
+bounds:2,163,524,104
+offsets:191,154,736,340
+sword blade
+bounds:2,59,102,196
+rotate:90
+sword_handle
+bounds:67,7,50,65
+offsets:0,0,50,66
+rotate:90
+top hand
+bounds:527,2,34,29
+top lower arm
+bounds:134,10,57,47
+offsets:0,1,57,48
+top mask
+bounds:454,33,41,50
+top upper arm
+bounds:384,2,68,65
+zaps1
+bounds:812,156,135,111
+offsets:0,1,136,112
+zaps_2
+bounds:812,33,122,121
+offsets:2,2,125,124
+
+believer_ironclad_2.png
+size:632,82
+filter:Linear,Linear
+scale:0.32
+attack/bod attack
+bounds:2,3,77,84
+rotate:90
+attack/bottom hand attack
+bounds:598,6,35,32
+rotate:90
+attack/bottom lower arm attack
+bounds:325,19,61,41
+offsets:1,0,63,43
+rotate:90
+attack/bottom upper arm attack
+bounds:133,8,64,72
+attack/front arm attack
+bounds:199,12,68,64
+rotate:90
+attack/front bracer attack
+bounds:480,2,42,32
+offsets:2,2,61,35
+attack/front hand attack
+bounds:419,2,29,28
+attack/l ankle attack
+bounds:601,46,34,25
+offsets:0,0,35,25
+rotate:90
+attack/l foot attack
+bounds:494,38,33,42
+attack/l knee attack
+bounds:368,31,49,45
+offsets:1,0,51,45
+rotate:90
+attack/l leg attack
+bounds:88,5,43,75
+offsets:2,0,45,75
+attack/l neck armor attack
+bounds:450,2,28,28
+offsets:0,0,29,28
+attack/l shoulder bottom attack
+bounds:458,36,44,34
+rotate:90
+attack/l shoulder bottom back attack
+bounds:524,2,34,37
+offsets:7,0,41,45
+rotate:90
+attack/l shoulder top attack
+bounds:368,2,49,27
+attack/r foot attack
+bounds:529,42,38,35
+rotate:90
+attack/r knee attack
+bounds:415,32,48,41
+offsets:2,1,50,43
+rotate:90
+attack/r lower leg attack
+bounds:265,16,58,64
+attack/r neck armor attack
+bounds:325,3,14,20
+rotate:90
+attack/r shoulder bottom attack
+bounds:563,2,33,38
+offsets:11,0,44,48
+attack/r shoulder top attack
+bounds:566,43,33,37
+offsets:0,1,33,38
+
+believer_ironclad_3.png
+size:260,153
+filter:Linear,Linear
+scale:0.32
+death/body death
+bounds:2,42,109,89
+rotate:90
+death/bottom shoulder death
+bounds:193,108,43,37
+offsets:1,1,44,38
+rotate:90
+death/bracer_death
+bounds:89,2,72,38
+death/hair death
+bounds:93,42,36,46
+death/hand death
+bounds:131,42,46,28
+rotate:90
+death/head death
+bounds:143,92,59,48
+rotate:90
+death/knee_death
+bounds:214,2,38,44
+rotate:90
+death/lower arm_death
+bounds:161,42,57,48
+death/lower leg_death
+bounds:2,2,38,85
+offsets:1,0,39,85
+rotate:90
+death/open hand_death
+bounds:220,70,35,36
+death/top shoulder death
+bounds:163,2,49,38
+offsets:5,5,59,47
+death/upper arm_death
+bounds:93,90,48,61
+offsets:1,0,49,61
+
+believer_ironclad_4.png
+size:17,42
+filter:Linear,Linear
+scale:0.32
+slash/slash_placeholder
+bounds:2,2,13,38

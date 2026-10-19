@@ -124,5 +124,11 @@
     <ItemGroup>
       <EmbeddedResource Include="BelieverCode\ReskinTest\believer_skin.atlas" LogicalName="Believer.BelieverCode.ReskinTest.believer_skin.atlas" />
       <EmbeddedResource Include="BelieverCode\ReskinTest\believer_skin.png" LogicalName="Believer.BelieverCode.ReskinTest.believer_skin.png" />
-    </ItemGroup>
+      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_hood.spjson" LogicalName="Believer.BelieverCode.ReskinTest.believer_hood.spjson" />
+      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_hood.atlas" LogicalName="Believer.BelieverCode.ReskinTest.believer_hood.atlas" />
+      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_hood.atlas.png" LogicalName="Believer.BelieverCode.ReskinTest.believer_hood.atlas.png" />      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_ironclad.atlas" LogicalName="Believer.BelieverCode.ReskinTest.believer_ironclad.atlas" />
+      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_ironclad.png" LogicalName="Believer.BelieverCode.ReskinTest.believer_ironclad.png" />
+      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_ironclad_2.png" LogicalName="Believer.BelieverCode.ReskinTest.believer_ironclad_2.png" />
+      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_ironclad_3.png" LogicalName="Believer.BelieverCode.ReskinTest.believer_ironclad_3.png" />
+      <EmbeddedResource Include="BelieverCode\ReskinTest\believer_ironclad_4.png" LogicalName="Believer.BelieverCode.ReskinTest.believer_ironclad_4.png" />      <EmbeddedResource Include="Believer\images\characters\believer_direct.png" LogicalName="Believer.BelieverCode.Character.believer_direct.png" />      <EmbeddedResource Include="Believer\images\characters\believer_shadow.png" LogicalName="Believer.BelieverCode.Character.believer_shadow.png" />      <EmbeddedResource Include="Believer\images\characters\believer_orb.png" LogicalName="Believer.BelieverCode.Character.believer_orb.png" />    </ItemGroup>
 </Project>

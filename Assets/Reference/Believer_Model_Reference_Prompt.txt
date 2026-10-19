@@ -1,0 +1,33 @@
+Create a single production-ready character model reference sheet for a hand-painted fantasy game character named "Believer", designed for Slay the Spire 2's small in-combat character scale. Use the supplied pose sheet as the character-design reference: ivory-white layered robes, antique-gold edging, a tall pointed hood, a completely shadowed face, and an austere, mysterious high-priest presence. This must be an original hooded believer, not a recolored Slay the Spire Silent.
+
+CANVAS AND LAYOUT
+- Large landscape sheet, 3:2 aspect ratio, high resolution, dark desaturated blue-grey studio background with a subtle warm spotlight.
+- No written labels or logos inside the image; leave clean margins where labels can be added later.
+- Panel A (left 60% width, top 70% height): full-body character turnaround, three views standing on the same ground line, exactly the same height, proportions and costume: (1) front view, (2) side profile facing right, (3) back view.
+- Panel B (top right): three close-up head-and-hood views: front, right profile, and back; plus one small close-up of how the hood meets the layered shoulder mantle.
+- Panel C (middle right): clean exploded clothing-layers diagram on the same dark background: outer hood, inner robe, layered shoulder mantle, left wide sleeve, right wide sleeve, front tabard/skirt panel, layered robe hem, circular chest seal, and narrow antique-gold trim bands. Each item isolated, clearly separated, same palette and design language.
+- Panel D (bottom strip): a small side/three-quarter combat-scale reference figure facing right, full body, feet planted, one hand raised in a calm gesture of channeling divine power, other hand relaxed; no weapon, no magic effects, no halo, no orbs; robe and cape must not hide the body silhouette.
+
+CHARACTER DESIGN
+- Head and hood: tall, dignified pointed hood with a layered cloth crown; outer hood ivory-white with warm grey folds and restrained antique-gold edging; deep charcoal-black interior with NO visible face, eyes, nose, mouth, skull, hair, antlers or any recognizable Silent features. The face opening is a soft dark void, not a flat black oval; the hood has real fabric thickness and a shadowed inner rim. Hood outer silhouette is clearly larger and more imposing than the shoulders.
+- Shoulders: two or three layered shoulder mantles/capes with broad but compact silhouette; crisp ivory cloth, warm grey shading, thin antique-gold borders; layered edges clearly readable at small scale; no oversized shoulder spikes.
+- Torso: fitted ivory-white inner robe with warm grey-brown folds; a large, clear circular golden chest seal as the focal icon: simple outer ring, inner ring, central disc, and four short geometric rays, slightly raised metallic gold; no dense filigree.
+- Waist: narrow antique-gold belt with a simple central clasp; restrained geometric trim.
+- Sleeves: broad, clean bell sleeves with ivory cloth folds and restrained gold cuff bands; hands pale grey/desaturated, natural and empty, no weapons, no extra fingers.
+- Lower body: layered long robe with a strong vertical silhouette; front tabard with a simple gold vertical motif; angular but clean hem points; moderate width, not excessively long or wide; enough leg/robe separation to read as a standing figure at game scale.
+- Back: hood point and layered mantle visible; back cape split into two clean tail panels with gold edging; robe back has simple broad folds; no chest seal on the back.
+- Gold decoration: antique gold, slightly desaturated, hand-painted highlights; use thicker, clearer strokes suitable for a small game character; limit ornaments to hood edge, mantle edges, cuffs, belt, tabard hem, and chest seal.
+- Palette: warm ivory #E9E1D0, pale bone #F5EFE3, warm grey-beige shadow #B7AB96, deep umber shadow #5E5243, charcoal hood void #1B1917, antique gold #B08A4F, gold highlight #D8BB76, dark gold #6F5529.
+- Lighting: soft top-left key light, warm bounce from below, strong readable dark-to-light cloth folding; painterly hand-painted fantasy game art, crisp silhouette, restrained texture, no plastic specular, no photorealistic skin or fabric.
+- Proportions for a Slay the Spire 2 combat character: compact and dignified; head plus hood approximately 28% of total height; shoulders approximately 22% of total height wide; body slightly tapered; total silhouette readable at roughly 240–300 pixels tall. In the combat-scale panel, simplify the seal and trim so they remain readable when reduced. Avoid tiny chains, micro-engravings, thin dangling ribbons, or accessories that disappear at game scale.
+
+CONSISTENCY REQUIREMENTS
+- All three turnaround views and all detail panels show the same character, same costume construction, same hood shape, same shoulder layers, same sleeve shape, same hem length, same gold ornament placement, same chest-seal design.
+- Correct anatomy, natural hands, exactly two arms and two legs, no duplicated limbs, no inconsistent garment layers, no weapons.
+- The face remains completely hidden in every view and pose.
+- Keep the design clearly distinct from Silent: no skull face, no antlers, no green/teal Silent cloth, no dagger holsters, no bandage-wrapped limbs as the main silhouette.
+
+STYLE
+Hand-painted fantasy game illustration in the visual spirit of Slay the Spire 2: painterly cloth, simplified shapes, strong value grouping, warm ivory and antique gold, dark mysterious hood, solemn and slightly oppressive sacred presence. Concept-art quality, not 3D render, not anime, not photorealistic, not plastic.
+
+The final sheet should read as a professional model sheet that a 2D Spine artist can use to redraw the head/hood, torso, shoulder cloak, sleeves, dress/skirt and cape as separate attachments.

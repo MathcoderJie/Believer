@@ -6,12 +6,23 @@ using Believer.BelieverCode.Relics;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 
 namespace Believer.BelieverCode.Character;
 
 public class Believer : PlaceholderCharacterModel
 {
     public const string CharacterId = "Believer";
+
+    /// <summary>
+    /// Direct-texture mode: display the Believer's single transparent PNG through BaseLib's
+    /// NCreatureVisuals texture conversion (Sprite2D), not the Ironclad Spine visual.
+    /// Returns null only if the embedded PNG cannot be loaded, allowing the placeholder fallback.
+    /// </summary>
+    public override NCreatureVisuals? CreateCustomVisuals()
+    {
+        return BelieverDirectVisuals.Create();
+    }
     
     public static readonly Color Color = new("ffffff");
 

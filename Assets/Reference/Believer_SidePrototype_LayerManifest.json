@@ -1,0 +1,173 @@
+{
+  "version": "M9-A2.7",
+  "character": "Believer",
+  "reference": {
+    "model_reference": "Assets/Reference/暗影圣职者角色设定稿.png",
+    "pose_library": "Assets/Reference/神秘金饰长袍祭司姿态设定集.png",
+    "concept": "Assets/Reference/Believer_Concept.png",
+    "requested_model_reference_missing": "Assets/Reference/Believer_Model_Reference.png",
+    "source_crop_target": "Assets/Reference/Believer_SidePrototype_Target.png"
+  },
+  "pipeline": {
+    "spine_version": "4.2.43",
+    "bones": 141,
+    "slots": 56,
+    "skins": 1,
+    "attachments": 57,
+    "animations": ["attack", "cast", "die", "hurt", "idle_loop", "relaxed_loop", "shiv"],
+    "ik_constraints": 2,
+    "transform_constraints": 11,
+    "path_constraints": 0,
+    "physics_constraints": 0,
+    "json_load_verified": true,
+    "all_animations_loaded_in_game": true,
+    "deform_vertices_verified": true,
+    "source": "Silent native binary skeleton converted to Believer-owned custom skeleton JSON; original Silent resources are not overwritten."
+  },
+  "target_game_scale": {
+    "height_px": [240, 280],
+    "head_hood_px": [60, 78],
+    "head_hood_ratio": [0.25, 0.30],
+    "shoulder_width_px": [50, 65],
+    "hem_width_px_max": 80,
+    "chest_seal_diameter_px": [20, 28],
+    "gold_trim_px": [2, 3]
+  },
+  "layers_back_to_front": [
+    {
+      "name": "cape_back_main",
+      "bind_bones": ["capeBase", "cape_corner_l", "cape_corner_r", "cape_center"],
+      "slot": "believer_cape_back",
+      "new_attachment": true,
+      "deform_compatible": "new mesh, no deform timeline",
+      "source_px": [420, 420]
+    },
+    {
+      "name": "cape_side_tail_l",
+      "bind_bones": ["hip_cover", "leg_upper_r"],
+      "slot": "believer_cape_tail_l",
+      "new_attachment": true,
+      "source_px": [220, 360]
+    },
+    {
+      "name": "cape_side_tail_r",
+      "bind_bones": ["leg_upper_r", "leg_flap", "leg_flap2"],
+      "slot": "believer_cape_tail_r",
+      "new_attachment": true,
+      "source_px": [220, 360]
+    },
+    {
+      "name": "skirt_back",
+      "bind_bones": ["crotch_cloth2", "crotch_cloth3", "crotch_cloth4", "crotch_cloth5", "crotch_cloth6"],
+      "slot": "believer_skirt_back",
+      "new_attachment": true,
+      "source_px": [320, 380]
+    },
+    {
+      "name": "skirt_front_tabard",
+      "bind_bones": ["crotch_cloth", "crotch_cloth99"],
+      "slot": "believer_skirt_front",
+      "new_attachment": true,
+      "source_px": [260, 380]
+    },
+    {
+      "name": "torso_robe",
+      "bind_bones": ["body_1", "body_2", "body_3"],
+      "slot": "believer_torso",
+      "new_attachment": true,
+      "deform_compatible": "new mesh, no deform timeline; old torso copy remains defined but hidden",
+      "source_px": [300, 300]
+    },
+    {
+      "name": "chest_seal",
+      "bind_bones": ["body_1", "body_2"],
+      "slot": "believer_seal",
+      "new_attachment": true,
+      "deform_compatible": "separate overlay so old torso copy deform does not distort it",
+      "source_px": [128, 128]
+    },
+    {
+      "name": "sleeve_l",
+      "bind_bones": ["arm_upper_l", "arm_lower_l", "arm_flap_l", "arm_flap_l2", "arm_flap_l3", "arm_flap_l4"],
+      "slot": "believer_sleeve_l",
+      "new_attachment": true,
+      "source_px": [220, 300]
+    },
+    {
+      "name": "sleeve_r",
+      "bind_bones": ["arm_upper_r", "arm_lower_r", "arm_flap_r", "arm_flap_r2", "arm_flap_r3", "arm_flap_r4"],
+      "slot": "believer_sleeve_r",
+      "new_attachment": true,
+      "source_px": [220, 300]
+    },
+    {
+      "name": "shoulder_mantle_back",
+      "bind_bones": ["body_3", "shoulder_l", "shoulder_r", "capeBase"],
+      "slot": "believer_shoulder_back",
+      "new_attachment": true,
+      "source_px": [360, 220]
+    },
+    {
+      "name": "shoulder_mantle_front",
+      "bind_bones": ["body_3", "shoulder_l", "shoulder_r"],
+      "slot": "believer_shoulder_front",
+      "new_attachment": true,
+      "source_px": [360, 220]
+    },
+    {
+      "name": "hood_lining",
+      "bind_bones": ["head", "head_twist"],
+      "slot": "believer_hood_back",
+      "slot_order": "before head",
+      "new_attachment": true,
+      "source_px": [260, 300]
+    },
+    {
+      "name": "hood_back_shell",
+      "bind_bones": ["head", "head_twist", "body_3"],
+      "slot": "believer_hood_back",
+      "slot_order": "before head",
+      "new_attachment": true,
+      "source_px": [360, 400]
+    },
+    {
+      "name": "face_shadow",
+      "bind_bones": ["head"],
+      "slot": "head",
+      "slot_order": "existing head slot",
+      "new_attachment": false,
+      "source_px": [180, 220],
+      "note": "replace visible head texture with dark void; hide skull/hair/eye/horn/antler slots"
+    },
+    {
+      "name": "hood_front_rim",
+      "bind_bones": ["head", "head_twist"],
+      "slot": "believer_hood_rim",
+      "slot_order": "after head",
+      "new_attachment": true,
+      "source_px": [360, 400]
+    },
+    {
+      "name": "gold_trim_bands",
+      "bind_bones": [],
+      "slot": "per attachment",
+      "new_attachment": false,
+      "source_px": [256, 64],
+      "note": "paint into each attachment; keep 2-3 px at game scale"
+    }
+  ],
+  "animation_checks": [
+    {"animation": "idle_loop", "expected": "hood follows head; mantle/skirt subtle; seal visible"},
+    {"animation": "attack", "expected": "no weapon; reduced attack capes; sleeves/mantle move without covering body"},
+    {"animation": "cast", "expected": "face remains black void; hood/neck connected; no clipping"},
+    {"animation": "hurt", "expected": "head/hood stable; no neck gap"},
+    {"animation": "die", "expected": "normal hood/rim/back layers hidden; death hood/robe shown; no Silent head"}
+  ],
+  "not_completed": [
+    "formal hand-painted side-view layered PNG/PSD",
+    "final UV/atlas packing of the new layers",
+    "in-game side-view prototype screenshots",
+    "formal idle/attack/cast/hurt/die art validation",
+    "Assets/Reference/Believer_Model_Reference.png"
+  ]
+}
