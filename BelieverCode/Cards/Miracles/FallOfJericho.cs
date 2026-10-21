@@ -12,7 +12,7 @@ namespace Believer.BelieverCode.Cards.Miracles;
 /// 6/12 耶城崩塌 / Fall of Jericho - remove all enemy Block, then 25 damage to all enemies and
 /// 2 Vulnerable.
 /// </summary>
-public sealed class FallOfJericho() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+public sealed class FallOfJericho() : MiracleCard(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

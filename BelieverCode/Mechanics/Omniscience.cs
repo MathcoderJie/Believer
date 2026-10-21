@@ -64,7 +64,7 @@ public static class Omniscience
 
         // Start the local presentation before the power is applied so the charge phase begins on the
         // same frame as the card play. The VFX layer is purely client-side and does not affect state.
-        BelieverOmniscienceVfx.Begin(player, divinityAmount);
+        BelieverOmniscienceDomainVfx.Begin(player, divinityAmount);
 
         var power = await PowerCmd.Apply<OmnisciencePower>(
             choiceContext, player.Creature, 1m, player.Creature, source);

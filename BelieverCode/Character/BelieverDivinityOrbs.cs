@@ -4,6 +4,7 @@ using System.IO;
 using BaseLib.Extensions;
 using Believer.BelieverCode.Resources;
 using Godot;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using HarmonyLib;
@@ -112,6 +113,7 @@ internal partial class BelieverDivinityOrbLayer : Node2D
     private int _bindAttempts;
     private bool _bindScheduled;
     private bool _suppressed;
+    private bool _combatHidden;
 
     public int DesiredCount { get; private set; }
 
@@ -176,7 +178,7 @@ internal partial class BelieverDivinityOrbLayer : Node2D
 
     private void TryBind()
     {
-        if (_resource != null || _player == null)
+        if (_combatHidden || _resource != null || _player == null)
         {
             return;
         }
@@ -210,7 +212,7 @@ internal partial class BelieverDivinityOrbLayer : Node2D
 
     private void Bind(BelieverDivinityResource resource)
     {
-        if (_resource == resource)
+        if (_combatHidden || _resource == resource)
         {
             return;
         }
@@ -226,7 +228,7 @@ internal partial class BelieverDivinityOrbLayer : Node2D
 
     private void OnAmountChanged(int oldAmount, int newAmount)
     {
-        if (_suppressed)
+        if (_suppressed || _combatHidden)
         {
             return;
         }
@@ -310,8 +312,56 @@ internal partial class BelieverDivinityOrbLayer : Node2D
         }
     }
 
+    private void SyncCombatLifetime()
+    {
+        if (_player == null) return;
+
+        if (!CombatManager.Instance?.IsInProgress ?? true || _player.PlayerCombatState == null)
+        {
+            if (!_combatHidden)
+            {
+                _combatHidden = true;
+                DesiredCount = 0;
+                foreach (var orb in _orbs)
+                {
+                    if (IsInstanceValid(orb)) orb.Retire();
+                }
+                if (_resource != null)
+                {
+                    _resource.AmountChanged -= OnAmountChanged;
+                    _resource = null;
+                }
+                MainFile.Logger.Info("[BelieverOrbs] combat ended: retiring all divinity orbs");
+            }
+            return;
+        }
+
+        if (_combatHidden)
+        {
+            _combatHidden = false;
+            _bindAttempts = 0;
+            TryBind();
+        }
+
+        // Some UI/action transitions can replace the player combat resource without an
+        // AmountChanged callback reaching an already-attached visual layer. Poll the real
+        // resource as a safety net so orbs can never stay at a stale count.
+        var current = _player.GetResource<BelieverDivinityResource>();
+        if (current == null) return;
+        if (!ReferenceEquals(current, _resource))
+        {
+            Bind(current);
+            return;
+        }
+        if (!_suppressed && DesiredCount != Math.Clamp(current.Amount, 0, BelieverDivinityResource.MaxAmount))
+        {
+            Sync(current.Amount);
+        }
+    }
+
     public override void _Process(double delta)
     {
+        SyncCombatLifetime();
         var dt = (float)delta;
         _time += dt;
 

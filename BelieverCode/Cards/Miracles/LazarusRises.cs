@@ -17,7 +17,7 @@ namespace Believer.BelieverCode.Cards.Miracles;
 /// at most once, so no duplicate recovery or infinite copy loop is possible. Permanent card costs are
 /// never modified: <c>SetToFreeThisTurn</c> only adds a turn-scoped modifier.
 /// </summary>
-public sealed class LazarusRises() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+public sealed class LazarusRises() : MiracleCard(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     private const int MaxCards = 3;
 

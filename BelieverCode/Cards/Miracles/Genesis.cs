@@ -14,7 +14,7 @@ namespace Believer.BelieverCode.Cards.Miracles;
 /// per form", keeps damage immunity / 0-cost cards / miracle usability alive, and retains the
 /// unplayed miracles for the extra turn. No re-draw, no second debuff cleanse, no re-generation.
 /// </summary>
-public sealed class Genesis() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+public sealed class Genesis() : MiracleCard(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

@@ -7,7 +7,7 @@ using Believer.BelieverCode.Character;
 namespace Believer.BelieverCode.Dev;
 
 /// <summary>
-/// Dev-only visual proof for the Omniscience sequence. It reuses the exact BelieverOmniscienceVfxLayer
+/// Dev-only visual proof for the Omniscience sequence. It reuses the exact BelieverOmniscienceDomainVfxLayer
 /// used in combat, but drives it directly so the charge/ascend/burst/sustain phases can be inspected
 /// without starting a combat. Marker: user://believer_omniscience_vfx_test.flag.
 /// </summary>
@@ -55,7 +55,7 @@ internal static class BelieverOmniscienceVfxTest
             MainFile.Logger.Error("[OmniscienceVfxTest] BelieverEffectLayer missing");
             return;
         }
-        var vfx = new BelieverOmniscienceVfxLayer { Name = "OmniscienceVfxTestLayer" };
+        var vfx = new BelieverOmniscienceDomainVfxLayer { Name = "OmniscienceVfxTestLayer" };
         vfx.Initialize(null, visuals);
         effectLayer.AddChild(vfx);
         vfx.Begin(7);

@@ -18,7 +18,7 @@ namespace Believer.BelieverCode.Cards.Miracles;
 /// from being cleared at the start of the turn and then decrements itself away, which is exactly the
 /// vanilla "retain your Block next turn" mechanic.
 /// </summary>
-public sealed class PartingOfTheRedSea() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+public sealed class PartingOfTheRedSea() : MiracleCard(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     private const decimal BlockAmount = 40m;
 

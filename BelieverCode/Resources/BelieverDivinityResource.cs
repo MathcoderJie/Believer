@@ -1,6 +1,7 @@
 using BaseLib.Abstracts;
 using BaseLib.BaseLibScenes;
 using BaseLib.Patches.UI;
+using Believer.BelieverCode.Character;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Players;
 
@@ -111,7 +112,9 @@ public class BelieverDivinityResource : CustomResource
             var resource = CustomResources<T>.Get(playerCombatState);
             if (resource == null) return null!;
 
-            var display = new NAdditionalResourceDisplay(player, resource);
+            var actualResource = resource as BelieverDivinityResource;
+            if (actualResource == null) return null!;
+            var display = new BelieverDivinityDisplay(actualResource);
             ui.AddChild(display);
 
             // CombatUiPositioning only offers None / Left / AroundEnergy, and AroundEnergy lays

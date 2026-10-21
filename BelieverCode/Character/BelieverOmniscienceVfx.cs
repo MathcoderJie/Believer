@@ -642,9 +642,9 @@ internal partial class OmniscienceEnergyOrb : Node2D
 }
 
 /// <summary>
-/// Attach the lightning-sun layer next to the existing divinity orb layer.
+/// Legacy M10.8 lightning-sun attachment is intentionally disabled; M10.8.2's
+/// BelieverOmniscienceDomainVfx owns the active Omniscience presentation.
 /// </summary>
-[HarmonyPatch(typeof(NCreature), nameof(NCreature._Ready))]
 internal static class BelieverOmniscienceVfxAttachPatch
 {
     [HarmonyPostfix]

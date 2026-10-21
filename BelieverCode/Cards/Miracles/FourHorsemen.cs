@@ -13,7 +13,7 @@ namespace Believer.BelieverCode.Cards.Miracles;
 /// Conquest (15 to all + 2 Vulnerable), War (20 to all), Famine (15 to all + 2 Weak),
 /// Death (45 to the lowest-HP enemy).
 /// </summary>
-public sealed class FourHorsemen() : MiracleCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+public sealed class FourHorsemen() : MiracleCard(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

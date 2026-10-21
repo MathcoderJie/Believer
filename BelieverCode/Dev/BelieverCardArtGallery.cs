@@ -89,6 +89,10 @@ internal static class BelieverCardArtGallery
             var smallPath = card.PortraitPath;
             var hasBig = ResourceLoader.Exists(bigPath);
             var hasSmall = ResourceLoader.Exists(smallPath);
+            if (card is OmniscienceCard)
+            {
+                MainFile.Logger.Info($"[CardArtGallery] Omniscience title='{card.Title}'");
+            }
             if (!hasBig || !hasSmall) missing++;
 
             try

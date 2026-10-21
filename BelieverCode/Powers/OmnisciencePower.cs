@@ -251,7 +251,7 @@ public sealed class OmnisciencePower : BelieverPower, IMaxHandSizeModifier
         var player = Owner?.Player;
         if (player != null && cardPlay.Card?.Owner == player)
         {
-            BelieverOmniscienceVfx.CardPlayed(player);
+            BelieverOmniscienceDomainVfx.CardPlayed(player);
         }
         return Task.CompletedTask;
     }
@@ -270,7 +270,7 @@ public sealed class OmnisciencePower : BelieverPower, IMaxHandSizeModifier
     {
         if (target == Owner)
         {
-            BelieverOmniscienceVfx.ShieldFeedback(Owner.Player);
+            BelieverOmniscienceDomainVfx.ShieldFeedback(Owner.Player);
         }
         return Task.CompletedTask;
     }

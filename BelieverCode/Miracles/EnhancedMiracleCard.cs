@@ -1,6 +1,7 @@
 using Believer.BelieverCode.Cards.Signature;
 using Believer.BelieverCode.Keywords;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace Believer.BelieverCode.Miracles;
