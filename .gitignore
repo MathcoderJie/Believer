@@ -10,3 +10,9 @@ packages/
 .editorconfig
 *.user
 Directory.Build.props
+
+# Agnes 生图管线：本地密钥与生成产物不入库
+Tools/AgnesImage/.env
+Tools/AgnesImage/out/
+__pycache__/
+*.pyc

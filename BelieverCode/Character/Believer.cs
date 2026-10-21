@@ -78,4 +78,10 @@ public class Believer : PlaceholderCharacterModel
     public override string CustomCharacterSelectIconPath => "char_select_char_name.png".CharacterUiPath();
     public override string CustomCharacterSelectLockedIconPath => "char_select_char_name_locked.png".CharacterUiPath();
     public override string CustomMapMarkerPath => "map_marker_char_name.png".CharacterUiPath();
+
+    /// <summary>
+    /// Custom character-select background scene. The generated wide portrait is the background;
+    /// the vanilla InfoPanel remains on the right and the image deliberately leaves dark space there.
+    /// </summary>
+    public override string CustomCharacterSelectBg => "res://Believer/scenes/char_select_bg_believer.tscn";
 }
