@@ -1,5 +1,6 @@
 using BaseLib.Extensions;
 using Believer.BelieverCode.Cards;
+using Believer.BelieverCode.Character;
 using Believer.BelieverCode.Miracles;
 using Believer.BelieverCode.Powers;
 using Believer.BelieverCode.Powers.Blue;
@@ -58,7 +59,12 @@ public static class Omniscience
         if (IsActive(player)) return;
 
         var divinity = player.GetResource<BelieverDivinityResource>();
+        var divinityAmount = divinity?.Amount ?? 0;
         if (divinity == null || !divinity.TrySpend(BelieverDivinityResource.MaxAmount)) return;
+
+        // Start the local presentation before the power is applied so the charge phase begins on the
+        // same frame as the card play. The VFX layer is purely client-side and does not affect state.
+        BelieverOmniscienceVfx.Begin(player, divinityAmount);
 
         var power = await PowerCmd.Apply<OmnisciencePower>(
             choiceContext, player.Creature, 1m, player.Creature, source);

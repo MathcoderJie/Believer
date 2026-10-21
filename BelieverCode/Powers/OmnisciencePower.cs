@@ -1,4 +1,5 @@
 using BaseLib.Hooks;
+using Believer.BelieverCode.Character;
 using Believer.BelieverCode.Mechanics;
 using Believer.BelieverCode.Miracles;
 using MegaCrit.Sts2.Core.Combat;
@@ -239,5 +240,38 @@ public sealed class OmnisciencePower : BelieverPower, IMaxHandSizeModifier
     {
         var player = oldOwner?.Player;
         if (player != null) await Omniscience.CleanUpMiracles(player);
+    }
+
+    /// <summary>
+    /// Presentation-only feedback for sustained-state card plays: a short platinum trail / burst.
+    /// Does not alter damage, cost or pile behavior.
+    /// </summary>
+    public override Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        var player = Owner?.Player;
+        if (player != null && cardPlay.Card?.Owner == player)
+        {
+            BelieverOmniscienceVfx.CardPlayed(player);
+        }
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// The form prevents HP loss; this hook gives the local client a small sacred-seal shield flash
+    /// when an incoming damage instance reaches the invincible owner.
+    /// </summary>
+    public override Task AfterDamageReceived(
+        PlayerChoiceContext choiceContext,
+        Creature target,
+        DamageResult result,
+        ValueProp props,
+        Creature? dealer,
+        CardModel? cardSource)
+    {
+        if (target == Owner)
+        {
+            BelieverOmniscienceVfx.ShieldFeedback(Owner.Player);
+        }
+        return Task.CompletedTask;
     }
 }
